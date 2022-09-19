@@ -81,8 +81,9 @@ export const Link = styled.TouchableOpacity`
 `;
 
 export const ProgressBar = styled(Progress.Bar).attrs({
+  animationType: 'timing',
+  width: null
 })`
-  margin: 10px 0;
   width: 100%;
 `;
 

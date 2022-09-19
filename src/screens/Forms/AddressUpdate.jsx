@@ -16,6 +16,7 @@ export default ({navigation, route}) => {
   const dispatch = useDispatch()
   const validations = yup.object().shape({
     address: yup.object({
+      title: yup.string(),
       zipcode: yup.string().required('Campo obrigatório'),
       streetName: yup.string().required('Campo obrigatório'),
       number: yup.string().required('Campo obrigatório'),
@@ -50,10 +51,8 @@ export default ({navigation, route}) => {
       initialValues={initialValues}
       enableReinitialize={true}
       validationSchema={validations}
-      onSubmit={(values, {resetForm, setSubmitting}) => {
+      onSubmit={(values, {setSubmitting, resetForm}) => {
         setSubmitting(true)
-
-        // console.log('VALUES', values);
 
         isEditing ?
         dispatch(userThunk.updateAddress(values.address)).then(result => {
@@ -73,7 +72,7 @@ export default ({navigation, route}) => {
         })
       }}
     >
-      {({values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, isSubmitting}) => (
+      {({values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, isSubmitting, setSubmitting}) => (
         <Container>
           <Title>Address Form</Title>
           
@@ -84,6 +83,8 @@ export default ({navigation, route}) => {
             touched={touched}
             handleBlur={handleBlur}
             setFieldValue={setFieldValue}
+            isSubmitting={isSubmitting}
+            setSubmitting={setSubmitting}
           />
 
           {!keyboardShow &&

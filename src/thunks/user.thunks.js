@@ -1,9 +1,9 @@
-import { signIn, signUp, validateSession, updateUser, signOut, includeAddress, updateAddress, deleteAddress } from '../services/apiService'
+import api from '../services/api'
 import userActions from '../store/actions/user.actions'
 
 export default {
   register: (form) => dispatch => {
-    return signUp(form).then(result => {
+    return api.signUp(form).then(result => {
       if (result.error)
         return result
       return dispatch(userActions.setUser(result))
@@ -11,7 +11,7 @@ export default {
   },
 
   login: (form) => dispatch => {
-    return signIn(form).then(result => {
+    return api.signIn(form).then(result => {
       if (result.error)
         return result
       return dispatch(userActions.setUser(result))
@@ -19,7 +19,7 @@ export default {
   },
 
   authenticate: () => dispatch => {
-    return validateSession().then(result => {
+    return api.validateSession().then(result => {
       if (result.error)
         return result
       return dispatch(userActions.setUser(result))
@@ -27,7 +27,7 @@ export default {
   },
 
   update: (form) => dispatch => {
-    return updateUser(form).then(result => {
+    return api.updateUser(form).then(result => {
       if (result.error)
         return result
       return dispatch(userActions.setUser(result))
@@ -35,7 +35,7 @@ export default {
   },
 
   updateAddress: (form) => dispatch => {
-    return updateAddress(form).then(result => {
+    return api.updateAddress(form).then(result => {
       if (result.error)
         return result
       return dispatch(userActions.setUser(result))
@@ -43,7 +43,7 @@ export default {
   },
 
   includeAddress: (form) => dispatch => {
-    return includeAddress(form).then(result => {
+    return api.includeAddress(form).then(result => {
       if (result.error)
         return result
       return dispatch(userActions.setUser(result))
@@ -51,7 +51,7 @@ export default {
   },
 
   removeAddress: (form) => dispatch => {
-    return deleteAddress(form).then(result => {
+    return api.deleteAddress(form).then(result => {
       if (result.error)
         return result
       return dispatch(userActions.setUser(result))
@@ -59,8 +59,17 @@ export default {
   },
 
   logout: () => dispatch => {
-    return signOut().then(result => {
+    return api.signOut().then(() => {
       return dispatch(userActions.setUser({}))
+    })
+  },
+
+  updateAvatar: (formData) => dispatch => {
+    return api.updateAvatar(formData).then(result => {
+      console.log('thunks result', result)
+      // if (result.error)
+        return
+      // return dispatch(userActions.setAvatar(result))
     })
   }
 }

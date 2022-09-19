@@ -67,8 +67,6 @@ export default ({navigation, route}) => {
       onSubmit={(values, {resetForm, setSubmitting}) => {
         setSubmitting(true)
 
-        // console.log('VALUES', values);
-
         dispatch(userThunk.update({openingHours: values})).then(result => {
           setSubmitting(false)
           if (result.error)

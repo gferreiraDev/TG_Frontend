@@ -13,8 +13,8 @@ import AddressForm from "../../components/Forms/AddressForm"
 import PasswordForm from "../../components/Forms/PasswordForm"
 
 export default ({ navigation, route }) => {
-  const [step, setStep] = useState(0)
-  const [progress, setProgress] = useState(0);
+  const [step, setStep] = useState(1)
+  const [progress, setProgress] = useState(0.0);
   const [keyboardShow, setKeyboardShow] = useState(false)
   const dispatch = useDispatch()
   const validations = yup.object().shape({
@@ -65,46 +65,46 @@ export default ({ navigation, route }) => {
   }
 
   const goNext = (setFieldTouched, errors, values) => {
-    // console.log(step, errors);
-
     switch(step) {
-      case 0:
+      case 1:
         setFieldTouched('profile', true)
         if (errors.profile)
           return console.log('CANNOT GO FORWARD')
+        // setProgress(progress + 0.25)
         setStep(step + 1);
-        setProgress(progress + 0.25)
         break
       
-      case 1:
+      case 2:
         ['name', 'corporateName', 'tradingName', 'email', 'phone', 'cpf', 'cnpj'].map(field => setFieldTouched(field))
         if (values.profile === 'Consumidor' && (errors.name || errors.email || errors.phone || errors.cpf) ||
             values.profile === 'Vendedor' && (errors.corporateName || errors.tradingName || errors.email || errors.cnpj))
           return console.log('CANNOT GO FORWARD')
         setStep(step + 1);
-        setProgress(progress + 0.25)
+        // setProgress(progress + 0.25)
         break
 
-      case 2:
+      case 3:
         ['address.zipcode', 'address.streetName', 'address.number', 'address.district', 'address.city', 'address.state']
         .map(field => setFieldTouched(field))
         if(errors?.address?.zipcode || errors?.address?.streetName || errors?.address?.number)
           return console.log('CANNOT GO FORWARD')
         setStep(step + 1)
-        setProgress(progress + 0.25)
+        // setProgress(progress + 0.25)
         break
 
-      case 3:
+      case 4:
         ['password', 'confirmPassword'].map(field => setFieldTouched(field))
         if(errors.password || errors.confirmPassword || errors.termsAccepted)
           return console.log('CANNOT GO FORWARD')
         setStep(step + 1)
-        setProgress(progress + 0.25)
+        // setProgress(progress + 0.25)
         break
 
       default:
         break
     }
+
+    setProgress(0.25 * step)
   }
 
   useEffect(() => {
@@ -122,7 +122,6 @@ export default ({ navigation, route }) => {
       enableReinitialize={true}
       validationSchema={validations}
       onSubmit={(values, {resetForm, setSubmitting}) => {
-        setProgress(progress + 0.25)
         setSubmitting(true)
 
         dispatch(userThunk.register(values)).then(result => {
@@ -137,18 +136,18 @@ export default ({ navigation, route }) => {
     >
       {({ values, errors, touched, isSubmitting, handleChange, handleBlur, handleSubmit, setFieldValue, setFieldTouched }) => (
         <Container>
-          <Row mV='20' justify='center'>
+          <Row mV='20'>
             <ProgressBar progress={progress}/>
           </Row>
 
-          {step === 0 ?
+          {step === 1 ?
             <ProfileForm
               state={values}
               setState={setFieldValue}
               errors={errors}
               touched={touched}
             />
-            : step === 1 ?
+            : step === 2 ?
             <UserForm
               state={values}
               setState={handleChange}
@@ -156,7 +155,7 @@ export default ({ navigation, route }) => {
               handleBlur={handleBlur}
               touched={touched}
             />
-            : step === 2 ?
+            : step === 3 ?
             <AddressForm
               state={values}
               setState={handleChange}
@@ -179,11 +178,11 @@ export default ({ navigation, route }) => {
           {!keyboardShow &&
             <>
               <Row>
-                <Button onPress={() => {step > 0 ? stepBack() : navigation.goBack()}}>
-                  <Text>{step > 0 ? 'Anterior' : 'Retornar'}</Text>
+                <Button onPress={() => {step > 1 ? stepBack() : navigation.goBack()}}>
+                  <Text>{step > 1 ? 'Anterior' : 'Retornar'}</Text>
                 </Button>
-                <Button onPress={() => {step < 3 ? goNext(setFieldTouched, errors, values) : handleSubmit()}}>
-                  <Text>{step < 3 ? 'Próximo' : 'Salvar'}</Text>
+                <Button onPress={() => {step < 4 ? goNext(setFieldTouched, errors, values) : handleSubmit()}}>
+                  <Text>{step < 4 ? 'Próximo' : 'Salvar'}</Text>
                 </Button>
               </Row>
               

@@ -1,17 +1,25 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Area, Row } from './styles'
 import { ToastAndroid as Toast } from 'react-native'
 import Input from '../Input'
+import Loader from '../Loader'
 
 import { searchZipcode } from '../../services/zipcodeService'
 
 export default ({ state, setState, errors, handleBlur, touched, setFieldValue }) => {
+  const [loading, setLoading] = useState(false)
+  
   const handleZipcodeSearch = (query) => {
-    // console.log(`searching zipcode: ${query}`);
+    if (!query)
+      return Toast.show('CEP inválido', Toast.LONG); 
+    
+    setLoading(true)
+
     searchZipcode(query.replace('-', ''))
     .then(result => {
+      setLoading(false)
       if (result.error)
-        return Toast.show(result.message, Toast.SHORT);
+        return Toast.show(result.message, Toast.LONG);
   
       return Object.keys(result).forEach(item => {
         setFieldValue(`address.${item}`, result[item]);
@@ -20,6 +28,13 @@ export default ({ state, setState, errors, handleBlur, touched, setFieldValue })
   }
   return (
     <Area>
+      <Input
+        label='título'
+        value={state?.address?.title}
+        onChangeText={setState('address.title')}
+        error={touched?.title && !!errors?.title}
+      />
+
       <Input
         type='zip-code'
         label='*CEP'
@@ -83,6 +98,8 @@ export default ({ state, setState, errors, handleBlur, touched, setFieldValue })
           editable={false}
         />
       </Row>
+
+      {loading && <Loader text='Buscando CEP'/>}
     </Area>
   )
 }

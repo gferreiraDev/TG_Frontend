@@ -23,7 +23,7 @@ export const Button = styled.TouchableOpacity`
 
 export const Container = styled(SafeAreaView)`
   flex: 1;
-  background-color: #130224;
+  background-color: ${props => props.theme.colors.dark};
   justify-content: center;
   align-items: center;
   padding: 20px 15px;
@@ -44,12 +44,12 @@ export const Text = styled.Text`
   font-weight: ${props => props.bold ? 'bold' : 'normal'};
   margin-vertical: 2.5px;
   text-align: ${props => props.align || 'left'};
-  color: ${props => props.color || '#fff'};
+  color: ${props => props.color ? props.theme.colors[props.color] : props.theme.colors.white};
 `;
 
 export const Title = styled.Text`
   font-size: 20px;
   font-weight: bold;
   font-family: sans-serif;
-  color: ${props => props.color || '#fff'};
+  color: ${props => props.color ? props.theme.colors[props.color] : props.theme.colors.white};
 `;

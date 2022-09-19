@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import { SafeAreaView } from "react-native"
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import MapView from "react-native-maps"
 
 export const Area = styled.View`
   flex-direction: row;
@@ -12,7 +13,7 @@ export const Area = styled.View`
 
 export const Badge = styled.View`
   padding: 5px 5px;
-  background-color: #F94A20;
+  background-color: ${props => props.theme.colors.info};
   border-radius: 8px;
   align-items: center;
   justify-content: center;
@@ -147,3 +148,8 @@ export const MapArea = styled.View`
   height: 180px;
   background-color: #888;
 `;
+
+export const Map = styled(MapView)`
+  width: 100%;
+  height: 100%;
+`

@@ -15,7 +15,7 @@ export default ({ navigation, route }) => {
     dispatch(userThunk.authenticate()).then(result => {
       setLoading(false)
       if (result.error)
-        return /*console.log('STH WENT WRONG', result)*/       
+        return
       return navigation.reset({routes: [{name: 'Main'}]})
     })
   }, [])

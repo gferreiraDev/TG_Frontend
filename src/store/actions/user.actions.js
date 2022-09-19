@@ -12,5 +12,11 @@ export default {
       type: ACTIONS.SET_ADDRESS,
       payload: address
     }
+  },
+  setAvatar: (avatar) => {
+    return {
+      type: ACTIONS.SET_AVATAR,
+      payload: avatar
+    }
   }
 }

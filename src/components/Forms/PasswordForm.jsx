@@ -1,5 +1,5 @@
 import React, {useState} from "react"
-import { Area } from "./styles"
+import { Area, Text } from "./styles"
 import Input from "../Input"
 import CheckBox from "../CheckBox"
 
@@ -34,7 +34,10 @@ export default ({ state, setState, errors, touched, handleBlur, setFieldValue })
         value={state?.termsAccepted}
         onChange={() => setFieldValue('termsAccepted', !state?.termsAccepted)}
         errorText={errors.termsAccepted}
-      />
+        action={() => console.log('Termos de uso')}
+      >
+        <Text>Li e concordo com os <Text bold color='accent'>Termos de Uso</Text> e com a <Text bold color='accent'> Política de Privacidade</Text></Text>
+      </CheckBox>
     </Area>
   )
 }

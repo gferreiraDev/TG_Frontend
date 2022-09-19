@@ -1,5 +1,5 @@
 import styled from "styled-components/native"
-import { Ionicons } from "@expo/vector-icons"
+import { Ionicons, Entypo } from "@expo/vector-icons"
 
 export const Tab = styled.View`
   height: 40px;
@@ -14,6 +14,11 @@ export const TabItem = styled.TouchableOpacity`
 `;
 
 export const Icon = styled(Ionicons).attrs({
+  size: 22,
+  color: '#fff',
+})``;
+
+export const Enticon = styled(Entypo).attrs({
   size: 22,
   color: '#fff',
 })``;

@@ -12,13 +12,29 @@ import userThunk from "../../thunks/user.thunks"
 export default ({navigation, route}) => {
   const dispatch = useDispatch()
   const validations = yup.object().shape({
-    name: yup.string().required('Campo obrigatório'),
-    // corporateName: yup.string().required('Campo obrigatório'),
-    // tradingName: yup.string().required('Campo obrigatório'),
+    profile: yup.string().required('Selecione um perfil'),
+    name: yup.string().when("profile", {
+      is: (profile) => profile === 'Consumidor',
+      then: yup.string().required('Campo obrigatório')
+    }),
     email: yup.string().email('Formato inválido').required('Campo obrigatório'),
-    cpf: yup.string().required('Campo obrigatório'),
-    // cnpj: yup.string().required('Campo obrigatório'),
+    cpf: yup.string().when("profile", {
+      is: (profile) => profile === 'Consumidor',
+      then: yup.string().required('Campo obrigatório')
+    }),
     phone: yup.string().required('Campo obrigatório'),
+    corporateName: yup.string().when("profile", {
+      is: (profile) => profile === 'Vendedor',
+      then: yup.string().required('Campo obrigatório')
+    }),
+    tradingName: yup.string().when("profile", {
+      is: (profile) => profile === 'Vendedor',
+      then: yup.string().required('Campo obrigatório')
+    }),
+    cnpj: yup.string().when("profile", {
+      is: (profile) => profile === 'Vendedor',
+      then: yup.string().required('Campo obrigatório')
+    }),
     website: yup.string()
   })
 

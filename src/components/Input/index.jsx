@@ -4,7 +4,7 @@ import { Area, Button, Container, Icon, Input, Label, MaskedInput } from "./styl
 export default ({type, label, icon, action, error, width, ...props}) => {
   return (
     <Container width={width}>
-      <Label error={error}>{label}</Label>
+      {label && <Label error={error}>{label}</Label>}
       <Area error={error}>
         {type ? 
           <MaskedInput error={error} type={type} {...props}/>

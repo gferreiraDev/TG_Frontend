@@ -4,30 +4,32 @@ import Input from '../Input'
 
 export default ({ state, setState, errors, handleBlur, touched }) => {
   return (
-    <Area>
-      {Object.keys(state).map((item, idx) => (
-        <Row key={idx}>
-          <Title>{state[item].label}</Title>
+    <Scroll>
+      <Area>
+        {Object.keys(state).map((item, idx) => (
+          <Row key={idx}>
+            <Title>{state[item].label}</Title>
 
-          <Input
-            width='40'
-            label='De'
-            value={state[item].from}
-            onChangeText={setState(`${item}.from`)}
-            onBlur={handleBlur(`${item}.from`)}
-            error={touched.from && !!errors.from}
-          />
+            <Input
+              width='40'
+              label='De'
+              value={state[item].from}
+              onChangeText={setState(`${item}.from`)}
+              onBlur={handleBlur(`${item}.from`)}
+              error={touched.from && !!errors.from}
+            />
 
-          <Input
-            width='40'
-            label='Até'
-            value={state[item].to}
-            onChangeText={setState(`${item}.to`)}
-            onBlur={handleBlur(`${item}.to`)}
-            error={touched.to && !!errors.to}
-          />
-        </Row>
-      ))}
-    </Area>
+            <Input
+              width='40'
+              label='Até'
+              value={state[item].to}
+              onChangeText={setState(`${item}.to`)}
+              onBlur={handleBlur(`${item}.to`)}
+              error={touched.to && !!errors.to}
+            />
+          </Row>
+        ))}
+      </Area>
+    </Scroll>
   )
 }

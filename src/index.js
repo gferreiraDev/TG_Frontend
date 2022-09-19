@@ -4,15 +4,17 @@ import { NavigationContainer } from "@react-navigation/native"
 import MainStack from "./navigation/mainStack"
 import { Provider } from "react-redux"
 import store from "./store/index"
-
+import ThemeProvider from "./utils/ThemeProvider"
 
 export default () => {
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <StatusBar backgroundColor="#ccc" style="auto"/>
-        <MainStack/>
-      </NavigationContainer>
+      <ThemeProvider>
+        <NavigationContainer>
+          <StatusBar backgroundColor="#ccc" style="auto"/>
+          <MainStack/>
+        </NavigationContainer>
+      </ThemeProvider>
     </Provider>
   )
 }

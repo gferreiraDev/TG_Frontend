@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { SafeAreaView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 export const Container = styled(SafeAreaView)`
@@ -7,7 +7,7 @@ export const Container = styled(SafeAreaView)`
   background-color: #130224;
   justify-content: center;
   align-items: center;
-  padding: 20px 15px;
+  padding: 15px;
 `;
 
 export const Button = styled.TouchableOpacity`
@@ -29,7 +29,6 @@ export const Row = styled.View`
   margin-horizontal: ${props => props.mH || 0}px;
 `;
 
-
 export const Text = styled.Text`
   font-size: ${props => props.small ? 13 : 16}px;
   font-weight: ${props => props.bold ? 'bold' : 'normal'};
@@ -43,5 +42,11 @@ export const Title = styled.Text`
   font-weight: bold;
   font-family: sans-serif;
   color: ${props => props.color || '#fff'};
-  margin-vertical: 25px;
+  margin-bottom: 25px;
+`;
+
+export const Scroll = styled.ScrollView`
+  flex: 1;
+  border: solid 1px #f70;
+  width: 100%;
 `;

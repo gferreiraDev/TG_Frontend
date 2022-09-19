@@ -1,9 +1,7 @@
 import axios from "axios"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 const baseUrl = "http://192.168.15.7:3001"
-const headers = {
-  'Content-Type': 'Application/json'
-}
+const headers = { 'Content-Type': 'Application/json' }
 
 export const signUp = (data) => {
   // console.log('SIGN UP (SERVICE)', data);
@@ -24,7 +22,7 @@ export const signIn = (data) => {
 
   return axios.post(`${baseUrl}/user/login`, data)
   .then(response => {
-    // console.log('RESPONSE', response.data)
+    console.log('RESPONSE', response)
 
     return setAsyncData('token', `Bearer ${response.data.token}`)
     .then((result) => {
@@ -33,7 +31,7 @@ export const signIn = (data) => {
     })
   })
   .catch(e => {
-    // console.log('ERROR', e);
+    console.log('ERROR', e);
     return { error: true, message: 'Erro ao tentar logar. Tente novamente mais tarde.' }
   })
 }
@@ -45,9 +43,13 @@ export const validateSession = async () => {
   if (token)
     return axios.get(`${baseUrl}/user/authenticate`, {headers: {'Authorization': token}})
     .then(response => {
-      // console.log('TOKEN RESPONSE', response.data);
+      console.log('TOKEN RESPONSE', response);
       return response.data
     })
+    .catch(e => {
+      console.log('ERROR2:', response.error.data);
+      return { error: true, message: 'Token inválido' }
+    });
 
   else
     return { error: true, message: 'Token não encontrado' }
@@ -115,6 +117,23 @@ export const signOut = async() => {
   const token = await removeAsyncData('token')
   // console.log('TOKEN OUT', token)
   return token
+}
+
+export const searchSellers = async (position) => {
+  const token = await getAsyncData('token');
+  // console.log('TOKEN', token)
+
+  return axios.get(`${baseUrl}/user/list`, {headers: {'Authorization': token}})
+  .then(response => {
+    return response.data
+  })
+}
+
+export const getProducts = async (sellerId) => {
+  return axios.get(`${baseUrl}/stock/list`, { seller: sellerId })
+  .then(response => {
+    return response.data
+  })
 }
 
 

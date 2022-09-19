@@ -1,20 +1,52 @@
 import React from "react"
+import Rating from "../../components/Rating"
+import * as ImagePicker from "expo-image-picker"
+import mime from "mime"
+import { useDispatch } from "react-redux"
+import userThunk from "../../thunks/user.thunks"
 import { Area, Badge, Card, Image, Page, Text, Title,
-  Button, CardBody, CardHeader, Row, Column, Icon, ClickArea, MapArea, Scroll
+  Button, CardBody, CardHeader, Row, Column, Icon, ClickArea, MapArea, Map, Scroll
 } from "./styles"
 
 export default ({ user, navigation, route }) => {
+  const dispatch = useDispatch()
+
+  const pickImage = () => {
+    ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      selectionLimit: 1,
+      aspect: [4, 3],
+      quality: 1,
+    })
+    .then(result => {
+      if (!result.cancelled) {
+        const data = new FormData();
+        data.append('fileName', {
+          name: `${new Date().toISOString()}_profile.jpg`,
+          uri: result.uri,
+          type: mime.getType(result.uri)
+        });
+
+        dispatch(userThunk.updateAvatar(data))
+      }
+    })
+  }
+
   return (
     <Scroll>
       <Page>
         <Area>
-          <ClickArea onPress={() => console.log('Change Avatar')}>
+          <ClickArea onPress={pickImage}>
             <Image source={{ uri: user.avatar }}/>
             <Badge>
               <Icon name='camera' color='white'/>
             </Badge>
           </ClickArea>
-          <Title>{user.tradingName}</Title>
+          <Column>
+            <Title>{user.tradingName}</Title>
+            <Rating top={20} score={user.score} showNumber/>
+          </Column>
         </Area>
       
         <Card>
@@ -27,15 +59,15 @@ export default ({ user, navigation, route }) => {
 
           <CardBody>
             <Row>
-              <Column width='30%'>
+              <Column width='33%'>
                 <Text bold>Razão Social</Text>
-                <Text bold>Nome Fantasia</Text>
+                <Text bold>Nome</Text>
                 <Text bold>Email</Text>
                 <Text bold>CNPJ</Text>
                 <Text bold>Telefone</Text>
                 <Text bold>Website</Text>
               </Column>
-              <Column width='70%'>
+              <Column width='67%'>
                 <Text>{user.corporateName}</Text>
                 <Text>{user.tradingName}</Text>
                 <Text>{user.email}</Text>
@@ -56,7 +88,9 @@ export default ({ user, navigation, route }) => {
           </CardHeader>
 
           <CardBody>
-            <MapArea />
+            <MapArea>
+              <Map/>
+            </MapArea>
             <Text>{user?.address?.streetName}, {user?.address?.number} - {user?.address?.complement}, {user?.address?.district}, {user?.address?.city}/{user?.address?.state}, {user?.address?.zipcode}</Text>
           </CardBody>
         </Card>
